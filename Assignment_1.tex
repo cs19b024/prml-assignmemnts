@@ -1,0 +1,441 @@
+\documentclass[solution,addpoints,12pt]{exam}
+\printanswers
+\usepackage{amsmath,amssymb,graphicx}
+\usepackage{centernot}
+\usepackage{hyperref}
+\usepackage{bbm}
+\usepackage{amsfonts}
+\newcommand{\RP}{\ensuremath{\mathsf{RP}}}
+\newcommand{\expect}[1]{\ensuremath{\mathbb{E}[#1]}}
+\newcommand{\dx}{\mathrm{d}x}
+\newcommand{\real}{\mathbb{R}}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+
+%\documentclass[addpoints,11pt,a4paper]{exam}
+\renewcommand{\rmdefault}{ppl} % rm
+\linespread{1.05}        % Palatino needs more leading
+\usepackage[scaled]{helvet} % ss
+\usepackage{courier} % tt
+\usepackage{eulervm} % a better implementation of the euler package (not in gwTeX)
+\normalfont
+\usepackage{caption}
+\usepackage[T1]{fontenc}
+\usepackage{mathrsfs}
+\usepackage{comment}
+\usepackage{graphicx}
+\usepackage{ulem}
+\usepackage{paralist}
+\usepackage{amsmath}
+\usepackage{psfrag}
+\usepackage{fullpage}
+\usepackage{fancybox}
+\usepackage{ifthen}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{listings}             % Include the listings-package
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+%commands added
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\lstset{language=Python}
+\usepackage{marvosym}
+\usepackage[export]{adjustbox}
+\extrawidth{1in}
+\usepackage{multicol}
+\setlength{\columnsep}{.001cm}
+\newcommand{\twopartdef}[4]
+{
+	\left\{
+		\begin{array}{ll}
+			#1 & \mbox{if } #2 \\
+			#3 & \mbox{if } #4
+		\end{array}
+	\right.
+}
+\newcommand{\G}{\mathcal{G}}
+\newcommand{\fH}{\mathcal{H}}
+\newcommand{\M}{\mathcal{M}}
+
+\begin{document}
+
+\hrule
+\vspace{3mm}
+\noindent 
+{\sf IITM-CS5691 : Pattern Recognition and Machine Learning  \hfill Release Date: Sep 28, 2021}
+\\
+\noindent 
+{\sf Assignment 1 (MKN Section) \hfill Due Date : Oct 7, 23:59}
+%{\sf ~\hfill }
+\vspace{3mm}
+\hrule
+\vspace{3mm}
+\noindent{{\sf Roll No: CS19B015}  \hfill  {\sf Name: Challa Sai Shashank Reddy}}\\% put your ROLL NO AND NAME HERE
+\noindent{{\sf Roll No:CS19B024}  \hfill  {\sf Name: Konthalapalli Abhishek}}% put your ROLL NO AND NAME HERE
+
+\noindent
+{{\sf Team number: }} %Team number
+
+\noindent
+{{\sf References (if any): 
+}} %Reference materials, if any.
+
+
+\vspace{3mm}
+\hrule
+{\small
+\begin{itemize}\itemsep0mm
+\item This assignment has to be completed in teams of two. Collaborations outside the team are strictly prohibited.
+\item Use \LaTeX\ to write-up your solutions (in the solution blocks of the source \LaTeX\  file of this assignment), and submit the resulting single pdf file at GradeScope by the due date. (Note: {\bf No late submissions} will be allowed, other than one-day late submission with 10\% penalty or four-day late submission with 30\% penalty! Within GradeScope, indicate the page number where your solution to each question starts, else we won't be able to grade it! You can join GradeScope using course entry code {\bf N8Z67W})  
+\item For the programming questions, please submit your code directly in moodle (carefully following the filename/folder/README conventions given in the questions/moodle), but provide your results/answers in the pdf file you upload to GradeScope. We will run plagiarism checks on codes, and any detected plagiarism in writing/code will be strictly penalized. 
+% mvoe to moodle: Attach a \textbf{README} with your code submission which gives a brief overview of your approach and a single command-line instruction for each question to read the data and generate the test results and figures. 
+\item  If you have referred a book or any other online material for obtaining a solution, please cite the source. Again don't copy the source {\it as is} - you may use the source to understand the solution, but write-up the solution in your own words. 
+\item Points will be awarded based on how clear, concise and rigorous your solutions are, and how correct your code is. Overall points for this assignment would be ${\bf min}$(your score including bonus points scored, 50).
+\item Check the Moodle discussion/announcement forums regularly for updates regarding the assignment. Please start early and clear all doubts ASAP. Post your doubt only on Moodle Discussion Forum so that everyone is on the same page. Please note that the TAs can \textbf{only} clarify doubts regarding problem statements (they won't discuss any prospective solution or verify your solution or give hints). 
+\end{itemize}
+}
+\hrule
+
+
+\begin{questions} 
+\question[15] [{\sc Density Estimation}]
+\begin{parts}
+\part[5] [{\sc Parametric MLE}]
+Suppose that the lifetime of Philips brand light bulbs is modeled by an exponential distribution with (unknown) rate parameter $\lambda$ or alternatively mean parameter $\mu$. We test 6 bulbs and find they have lifetimes of 2, 6, 7, 1, 4, and 3 years, respectively. (i) (2 points) What is the MLE for $\lambda$ and for $\mu$, and (ii) (2 points) derive the bias of each of these estimators? (iii) (1 point) If the estimators are biased, how will you correct them to get unbiased estimators?
+\begin{solution}
+
+This is MLE of $\lambda\mid\mu$ of exponential distribution $\lambda e^{-\lambda x}$
+
+\begin{align*}
+    \lambda_{ml} &= \operatorname*{argmax}_\lambda  \prod_{i=1}^{n} P(x_i;\lambda) \\ 
+    &=\operatorname*{argmax}_\lambda  \prod_{i=1}^{n} \lambda e^{-\lambda x_i} \\ 
+    &= \operatorname*{argmax}_\lambda \sum_{i=1}^{n} (\log{\lambda} - \lambda x_i) \\ 
+    &= \operatorname*{argmax}_\lambda (n\log{\lambda} - \lambda \sum_{i=1}^{n} x_i)
+\end{align*}
+
+Differentiating this expression which respect to $\lambda$ we get, 
+\begin{align*}
+    \frac{n}{\lambda} - \sum_{i=1}^{n} x_i = 0  \\ 
+    \lambda = \frac{n}{\sum_{i=1}^{n} x_i},   
+    \mu_{ml} = \frac{1}{\lambda_{ml}} = \frac{\sum_{i=1}^{n} x_i}{n} \\
+\end{align*}
+
+%  
+
+\end{solution}
+
+\part[5] [{\sc Parametric Bayesian}] Assume we have following prior distribution on $\theta$:
+$$p(\theta) = \alpha\beta^{\alpha}\theta^{-\alpha-1} \mathbbm{1}_{(\beta,\infty)} (\theta)$$
+where $\mathbbm{1}_{(\beta,\infty)} (\theta)$ is an indicator function which equals 1 when $\beta <\theta < \infty$ and $0$ otherwise.
+$p(\theta)$ is called Pareto distribution which is denoted as $\theta \sim $
+Pareto$(\alpha, \beta)$.
+\begin{subparts}
+\subpart[1\half] Assume $\theta \sim $
+Pareto$(\alpha, \beta)$ and $X_1,\dots , X_n \sim $ Uniform$(0, \theta)$ which are conditionally
+independent given $\theta$. What is the posterior distribution $p(\theta|D)$ where $D=(x_1,x_2,\dots,x_n)$. Does it belong to any family of distributions that you recognize?
+\begin{solution}
+% \[
+%     \begin{cases}
+    
+%     \end{cases}
+
+% \]
+\[ p(\theta)=  
+    \begin{cases} 
+      0 & \theta\leq \beta \\
+      \alpha\beta^{\alpha}\theta^{-\alpha-1} & \beta < \theta < \infty 
+    \end{cases}
+\]
+
+\begin{align*}
+    p(\theta|D) = \frac{p(D|\theta)p(\theta)}{p(D)} \\ \\  
+    \text{Now,} \ \bar{\beta} = max(x_1,x_2 \ldots x_n) \\ 
+    = \frac{\frac{1}{\theta^(n)}\alpha\beta^{-\alpha-1}}{    \int_{\bar{\beta}}^{\infty}\frac{\alpha\beta^{\alpha}\theta^{-\alpha-1}}{\theta^{n}} d\theta}  
+    &= \frac{\theta^{-\alpha-n-1}}{\int_{\widetilde{\beta}}^{\infty}\theta^{-\alpha-n-1}d\theta} \\ 
+    \int_{\widetilde{\beta}}^{\infty}\theta^{-\alpha-n-1}d\theta = \frac{\widetilde{\beta}^{-\alpha-n}}{\alpha+n} \\
+    \frac{\theta^{-\alpha-n-1}}{\int_{\widetilde{\beta}}^{\infty}\theta^{-\alpha-n-1}d\theta} = \frac{-\theta^{\alpha -n-1} \times (\alpha + n)}{\widetilde{\beta}^{-\alpha-n}} \\ 
+    &= (\alpha +n)\widetilde{\beta}^{\alpha+n}\theta^{-(\alpha+n)-1} \\ 
+    &= \text{pareto}(\alpha+n, \widetilde{\beta})
+    % \int_{\beta}^{\infty}\theta^{-\alpha-n-1}d\theta = \frac{\beta^{}}{} 
+\end{align*}
+
+
+\end{solution}
+
+\subpart[1\half] Using the above derived posterior, calculate the MAP estimate of $\theta$? How does this compare to the MLE?
+\begin{solution}
+The pareto function is a strictly decreasing function from $\theta \geq \widetilde{\beta}$ therefore the MAP estimate of this would be $\widetilde{\beta}$
+
+
+
+
+\end{solution}
+
+\subpart[2] Square loss is defined as $L(\theta, \hat{\theta}) = (\theta - \hat{\theta})^2$. For the above derived posterior in (i), 
+what estimator of $\theta$ minimizes the posterior expected square loss? Simplify your answer as much as possible. Is it the same as the MLE and/or the MAP?
+\begin{solution}
+
+
+
+\end{solution}
+\end{subparts}
+
+\part[5] [{\sc Non-parametric method}]
+In class, we saw a Parzen window estimator using an unit hypercube as the Parzen window or kernel function; we will use an exponential kernel function here:  
+\begin{gather*}
+  k(u)=
+    \begin{cases}
+    e^{-u}\quad u > 0, \\
+    0  \quad \quad u\leq 0.
+    \end{cases}
+\end{gather*}
+If $D=\{x_1,x_2 \cdots x_n\}$ is a dataset of i.i.d. samples, each drawn from $U(0,1)$, then (i) (3 points) show that the mean of the estimated density $p(x)$ is given by: 
+\[
+E_D[p(x)]=
+\begin{cases}
+0\quad \quad \quad \quad \quad x <0\\~\\
+{1-e^{-\dfrac{x}{h}}}\quad \quad \quad 0\leq x\leq 1\\~\\
+{e^{\dfrac{1-x}{h}} - ~e^{-\dfrac{x}{h}}}\quad \quad x \geq 1.
+\end{cases}
+\]
+(ii) (2 points) Also, plot $E_D[p(x)]$ vs $x$ for different values of $h$ ($h=1, 0.25, \mathrm{~and~} 0.0625$). What do you observe?
+\begin{solution}
+%insert the solution here
+\end{solution}
+\end{parts}
+
+
+\question[10] [{\sc Bayesian Decision Theory}]
+\begin{parts}
+\part[5][Optimal Classifier by Pen/Paper]
+Let $L$ be the loss matrix defined by $L=\begin{bmatrix}
+ 0 &1 &2\\
+ 1 &0 &1\\
+ 2 &1 &0
+\end{bmatrix}$, where $L_{ij}$ indicates the loss for an input x with $i$ being the true class and $j$ the predicted class. Given the data:
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+    \hline
+    \textbf{x} &-2.9 & 1.4 & 0.4 &-0.3 & -0.7 & 0.9 & 1.8 & 0.8 & -2.4 & -1.4 & 1.2 & 2.3 & 2.8 & -3.4\\
+    \hline
+     \textbf{y}& 1 & 3 & 2 & 2 & 1 & 3 & 3 & 2 & 1 & 1 & 2 & 3 & 3 & 1\\
+     \hline
+\end{tabular}
+\end{center}
+find the optimal Bayes classifier $h(x)$, and provide its decision boundaries/regions. 
+\begin{solution}
+\end{solution}
+
+\part[5]
+Consider the problem of  classifying a pattern $x$ into one of the $k$ classes $c={1, 2, ...k}$. Assume that we have two different tests to determine the class to be assigned to pattern $x$. Test 1 assigns $x$ to the class that maximizes the posterior probability, whereas test 2 to a class chosen based on randomized decision rule.
+\begin{center}
+\begin{tabular}{l}
+Test 1:   $H_1(x) = c^* = \operatorname*{argmax}_{c} p(c|x)$ \\
+
+Test 2:   $H_2(x) = c \sim p(c|x)$, where $c$ is chosen based on the distribution\\ $P(c=i|x)$ in a random fashion.
+\end{tabular}
+\end{center}
+\begin{subparts}
+\subpart[1] Calculate the risk $\mathrm{R_1}$ associated with test 1 in terms of the posterior probability using the zero-one loss function.
+\begin{solution}
+\end{solution}
+
+\subpart[2] Calculate the risk $\mathrm{R_2}$ associated with test 2 in terms of the posterior probability using the zero-one loss function.
+\begin{solution}
+\end{solution}
+
+\subpart[2] Which test do you think would perform better always based on the risks $R_1$ and $R_2$? Also, specify the conditions under which both the tests behave the same.
+\begin{solution}
+\end{solution}
+\end{subparts}
+\end{parts}
+
+
+\question[15][Linear regression] 
+\begin{parts}
+\part[5] Say we have a linear regression dataset where every training datapoint $\{x_n,y_n\}$ has a weight $q_n$ ($q_n > 0$) identified with it. Then we have the weighted error function (sum of squares) given by: 
+\[
+E_q(w)=\sum_{n=1}^{N} \dfrac{q_n(t_n - w^T x_n)^2}{2}.
+\]
+Derive the closed form solution for the minimizer $w^{*}$ of this function. Express it in matrix format for a simplified expression. 
+\begin{solution}
+% \beta + \alpha  = x+y +z  
+\[
+  E_q(w)=\sum_{n=1}^{N} \frac{((q_n)^{1/2}t_n - (q_n)^{1/2}w^T x_n)^2}{2}
+\]
+\[
+  t = \begin{bmatrix}
+  t_1 \\ 
+  t_2 \\ 
+  \vdots \\ 
+  t_N 
+  \end{bmatrix} 
+  \quad \quad \quad
+  t_q = \begin{bmatrix}
+    t_{1}(q_{1})^{1/2} \\ 
+    t_{2}(q_{2})^{1/2} \\ 
+    \vdots \\ 
+    t_{N}(q_{N})^{1/2} 
+    \end{bmatrix} 
+\]
+
+\[
+  x_n  = \begin{bmatrix}
+  x_n^{(1)} \\ 
+  x_n^{(2)} \\ 
+  \vdots \\ 
+  x_n^{(D)} 
+  \end{bmatrix} 
+  \quad \quad \quad
+  x_{nq} = \begin{bmatrix}
+    x_n^{(1)}(q_{n}^{(1)})^{1/2} \\ 
+    x_n^{(2)}(q_{n}^{(2)})^{1/2} \\ 
+    \vdots \\ 
+    x_n^{(D)}(q_{n}^{(D)})^{1/2}
+    \end{bmatrix} 
+\]
+
+
+
+%this is the design matrix 
+\[
+  X_q = \begin{bmatrix}
+    x_{1q} \\ 
+    x_{2q} \\
+    \vdots \\ 
+    x_{Nq} 
+  \end{bmatrix}
+\]
+
+
+
+\[
+  \sum_{n=1}^{N}(t_n - w^Tx_{nq})
+\]
+\text{This equation is similar to the equation,}
+\[
+  \sum_{n=1}^{N}(t_n - w^Tx_{n})
+\]
+The w which minimizes the above equation is, 
+\[
+  w = (X^{T}X)^{-1}X^{T}t
+\]
+
+Similarly the w which will minimize 
+\begin{align*}
+  \sum_{n=1}^{N}(t_n - w^Tx_{nq}) \\ 
+  w^{*} = (X_{q}^{T}X_{q})^{-1}X_{q}^{T}t_{q}
+\end{align*}
+
+\end{solution}
+
+\part[5] We saw in class that the error function in case of ridge regression is given by:
+\[
+\widetilde{E}(w) = \dfrac{1}{2}\sum_{n=1}^{N}(t_n-w^{T}\phi(x_n))^2+\dfrac{\lambda}{2}w^{T}w.
+\]
+Show that this error function is convex and is minimized by:
+\[
+w^{*}=(\lambda I + \phi^{T}\phi)^{-1}\phi^{T}t.
+\]
+Also show that $(\lambda I + \phi^{T}\phi)$ is invertible for any $\lambda > 0$.
+\begin{solution}
+\end{solution}
+
+\part[5] Given a dataset  
+\[
+X=\begin{bmatrix}
+-2 &6\\-1 &3
+\end{bmatrix}\quad t=\begin{bmatrix}
+3\\-1
+\end{bmatrix}
+\]
+find all minimizers $w$ of  $E(w)=\frac{1}{2} ||Xw - t||^2$, and indicate the one with the smallest norm. How does your answer change if you are looking for minimizers of $\widetilde{E}(w)$ instead (assuming $\lambda=1$)? 
+\begin{solution}
+\end{solution}
+\end{parts}
+
+
+\question[5][Kernel methods]
+Let $K_1$,$K_2$ be two arbitary valid kernel functions mapping vectors from $\mathbb{R}^d \times \mathbb{R}^d \rightarrow \mathbb{R}$. For each of the cases below, show if it is a valid kernel or not with supporting arguments.
+(Hint: Keep your solutions brief by using earlier parts of this question to solve later parts whenever possible.)
+\begin{parts}
+\part[1] $K_3(x,y) = K_1(x,y) + K_2(x,y) + 7.5$
+\begin{solution}
+\end{solution}
+ 
+\part[1] $K_4(x,y) = K_1(x,y)  K_2(x,y)$ (product of two kernels)
+\begin{solution}
+\end{solution}
+
+\part[1] $K_5(x,y) = (x^T y + 1)^{73}$
+\begin{solution}
+\end{solution}
+
+\part[1] $K_6(x,y) = 6 K_1(x,y) - 3 K_2(x,y)$
+\begin{solution}
+\end{solution}
+
+\part[1] $K(x,y) =\exp(2x^Ty)$
+(Hint: Consider polynomial expansion of $\exp(t)$.)
+\begin{solution}
+\end{solution}
+\end{parts}
+
+
+\question[10] [{\sc Let's roll up your coding sleeves...}]
+\textbf{Learning Binary Bayes Classifiers from data via Density Estimation}\\
+Derive Bayes classifiers under assumptions below and employing maximum likelihood approach to estimate class prior/conditional densities, and return the results on a test set.
+\begin{enumerate}
+\item \textbf{BayesA} Assume $X|Y=-1 \sim \mathcal{N}(\mu_-, I)$ and  $X|Y=1 \sim \mathcal{N}(\mu_+, I)$ 
+\item \textbf{BayesB} Assume $X|Y=-1 \sim \mathcal{N}(\mu_-, \Sigma)$ and $X|Y=1 \sim \mathcal{N}(\mu_+, \Sigma)$ 
+\item \textbf{BayesC} Assume $X|Y=-1 \sim \mathcal{N}(\mu_-, \Sigma_-)$ and $X|Y=1 \sim \mathcal{N}(\mu_+, \Sigma_+)$ 
+\end{enumerate}
+Please see \href{https://drive.google.com/drive/folders/1MDxrvvLGkw9fjpII0eRzfPZ6iJV4MoQN?usp=sharing}{this folder} for the template .ipynb file containing the helper functions, and you've to add the missing code to this file (specifically, three functions function\_for\_A, function\_for\_B, function\_for\_C and associated plotting/ROC code snippets) to implement the above three algorithms for the 2 datasets given in the same folder. 
+
+(Note: Please provide your results/answers in the pdf file you upload to GradeScope, but submit your code separately in \href{https://courses.iitm.ac.in/mod/assign/view.php?id=8597&forceview=1}{this} moodle link. The code submitted should be a rollno1\_rollno2.zip file containing a folder named Q5 with two files: rollno1\_rollno2.ipynb file (including your code as well as the exact same results/plots uploaded to Gradescope) and the associated rollno1\_rollno2.py file.)
+
+\begin{parts}
+\part[3] Plot all the classifiers (3 classification algorithms on $2$ datasets $= 6$ plots) on a 2D plot, Add the training data points also on the plots. (Color the positively classified area light green, and negatively classified area light red as in Fig 4.5 in Bishop's book). 
+\begin{solution}
+\end{solution}
+
+\part[3] Give the ROC curves for all the classifiers. Note that a ROC curve plots the FPR (False Positive Rate) on the x-axis and TPR (True Positive Rate) on the y-axis.
+\begin{solution}
+\end{solution}
+
+\part[2] Provide the error rates for the above classifiers (3 classifiers on the two datasets as $3\times2$ table, with appropriately named rows and columns).  
+\begin{solution}
+\end{solution}
+
+\part[2] Summarise and explain your observations based on your plots and the assumptions given in the problem. Also briefly comment whether a non-parametric density estimation approach could have been used to solve this problem, and if so, what the associated pros/cons are compared to the parametric MLE based approach you have implemented.   
+\begin{solution}
+\end{solution}
+\end{parts}
+
+
+\question[5][{\sc Coding a different density estimation?}] In the previous question, the class conditional densities were Gaussian. But not all real-world datasets are Gaussian as is to begin with. For instance, consider this data on expression/activity level of genes in the skeletal muscle tissue of different individuals, provided as a ``Genes $\times$ Samples'' matrix in this \href{https://drive.google.com/file/d/1TmVdJXqSt5yNbRr2SzyoVS2wnmXYtcos/view?usp=sharing}{link}. \\
+(Note: Put all your code pertaining to this question into a single file  rollno1\_rollno2{\bf\_genes}.<fileextension>, and include this single file inside the Q6 folder of the rollno1\_rollno2.zip file mentioned in the previous question.)
+\begin{parts}
+\part[2] (Model Selection) How would you model any given gene in this dataset, i.e., what distribution will you assume for a gene? Assume that every gene follows the same parametric model/distribution, but with different parameter values. Support your assumption.  
+\begin{solution}
+\end{solution}
+
+\part[2] (MLE Code) How will you obtain the MLE estimates of the assumed model's parameters? (no need to derive it, just state your answer as a closed-form formula or as an optimization method). Write a code to estimate these parameters for each gene.  
+\begin{solution}
+\end{solution}
+
+\part[1] (Diagnostic Plots) Use your code to also plot the sample mean (x-axis) vs. sample variance (y-axis) of each gene (across all genes, with each dot in this scatter-plot being a gene). Overlay on this plot using a different color, the model mean vs. variance of each gene (i.e., mean/variance calculated using the expectation/variance formula implied by the model/distribution learnt via MLE). What does this plot tell you? 
+\begin{solution}
+\end{solution}
+\end{parts}
+\end{questions}
+\end{document}
