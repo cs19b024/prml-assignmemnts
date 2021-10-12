@@ -550,14 +550,20 @@ Let $K_1$,$K_2$ be two arbitary valid kernel functions mapping vectors from $\ma
 \part[1] $K_4(x,y) = K_1(x,y)  K_2(x,y)$ (product of two kernels)
 \begin{solution}
 
+\begin{align*}
+  k_1(x,y) = \sum_{i=1}^{n}\Phi_i^1\Phi_i^1(y) \\ 
+  k_2(x,y) = \sum_{j=1}^{n}\Phi_j^2\Phi_j^2(y) \\ 
+  k_1(x,y)k_2(x,y) = \sum_{i,j}\Phi_i^1\Phi_i^1(y)\Phi_j^2\Phi_j^2(y) \\ 
+  \sum_{k} \Phi_k^{3}(x)\Phi_k^{y} \\ 
+  k_4 = \sum_{k} \Phi_k^{3}(x)\Phi_k^{y}
+\end{align*}
+Therefore, it is set of finite basis basics, which would also be a kernel. 
 
   
 \end{solution}
 
 \part[1] $K_5(x,y) = (x^T y + 1)^{73}$
 \begin{solution}
-  Doubts to ask : about what is menat by a kernel 
-  and how is $\lambda$ a eigen value of that thing. 
 
 
 
@@ -570,6 +576,22 @@ Let $K_1$,$K_2$ be two arbitary valid kernel functions mapping vectors from $\ma
 \part[1] $K(x,y) =\exp(2x^Ty)$
 (Hint: Consider polynomial expansion of $\exp(t)$.)
 \begin{solution}
+
+
+  \[
+    z^{T}exp(2u^{T}v)z \\ 
+    exp(2u^{T}v) = 2(1 + uv + (u^{T}v)^{2} \ldots)
+  \]
+Each expression is a kernel. 
+
+Therefore this expression is of the form, 
+
+\[
+  z^{T}k_1z +z^{T}k_2z+z^{T}k_1z+z^{T}k_3z \ge 0 
+\]
+the kernel is PSD, and the equation is symmetric because 
+
+
 \end{solution}
 \end{parts}
 
