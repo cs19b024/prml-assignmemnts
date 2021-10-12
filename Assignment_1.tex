@@ -173,17 +173,46 @@ independent given $\theta$. What is the posterior distribution $p(\theta|D)$ whe
 
 \subpart[1\half] Using the above derived posterior, calculate the MAP estimate of $\theta$? How does this compare to the MLE?
 \begin{solution}
-The pareto function is a strictly decreasing function from $\theta \geq \widetilde{\beta}$ therefore the MAP estimate of this would be $\widetilde{\beta}$
 
+The likelihood is :  
+\[
+  P(D;\theta) = \frac{1}{\theta^{n}}
+\]
+MLE estimate would be $\theta = max(x_1, x_2, x_3, \ldots x_n)$
+The pareto function is a strictly decreasing function from $\theta \geq \widetilde{\beta}$, 
+therefore the MAP estimate of this would be $\widetilde{\beta}$. 
 
-
+Therefore both the MLE estimate and MAP estimate of $\theta$ would be the same.  
 
 \end{solution}
 
 \subpart[2] Square loss is defined as $L(\theta, \hat{\theta}) = (\theta - \hat{\theta})^2$. For the above derived posterior in (i), 
 what estimator of $\theta$ minimizes the posterior expected square loss? Simplify your answer as much as possible. Is it the same as the MLE and/or the MAP?
 \begin{solution}
+This function would reach it's minimum value when $\theta$ takes the value $E[\theta]$. 
+Expectation of $\theta$ is as follows:
 
+\begin{align*}
+  E(\theta) = \int_{\beta}^{\infty} \theta \alpha \beta ^{\alpha}\theta^{-\alpha-1} d\theta \\ 
+  &= \alpha\beta^{\alpha} \int_{\beta}^{\infty} \theta^{-\alpha} d\theta \\ 
+  &= \alpha \beta^{\alpha} \left[ \frac{\theta^{\alpha-1}}{-\alpha +1} \right]^{\infty}_{\beta}
+\end{align*}
+Which is equal to, \\ 
+
+\[  
+  E[\theta] = \begin{cases}
+      \infty &  \alpha <= 1  \\ 
+      \frac{\alpha \beta}{\alpha-1} & \alpha > 1 \\
+  \end{cases}
+\]
+
+Therefore $\hat{\theta}$ is equal to, 
+\[  
+  \hat{\theta} = \begin{cases}
+      \infty &  \alpha <= 1  \\ 
+      \frac{\alpha \beta}{\alpha-1} & \alpha > 1 \\
+  \end{cases}
+\]
 
 
 \end{solution}
@@ -233,6 +262,47 @@ Let $L$ be the loss matrix defined by $L=\begin{bmatrix}
 \end{center}
 find the optimal Bayes classifier $h(x)$, and provide its decision boundaries/regions. 
 \begin{solution}
+
+
+
+
+% \begin{align*)
+%   P_{X|Y=1} = N(\mu_1, I), P(Y=1) = \phi_1 \\  
+%   P_{X|Y=2} = N(\mu_2, I), P(Y=1) = \phi_2 \\ 
+%   P_{X|Y=3} = N(\mu_3, I), P(Y=1) = \phi_3 \\ 
+% \end{align*}
+
+\begin{align*}
+    P_{X|Y=1} = N(\mu_1, I), P(Y=1) = \phi_1 \\  
+  P_{X|Y=2} = N(\mu_2, I), P(Y=1) = \phi_2 \\ 
+  P_{X|Y=3} = N(\mu_3, I), P(Y=1) = \phi_3 \\ 
+\end{align*}
+Now through MLE estimation
+\[
+  \operatorname*{argmax}_{\mu_1,\mu_2, \mu_3, \phi_1, \phi_2, \phi_3} \prod_{i=1}^{n} P(x_{i}| y_{i})p(y_{i})
+\]
+Solving this problem we would get, 
+
+\[
+  \mu_i = \frac{\sum_{j=1}^{n}x_j \mathbbm{1}{y_j = i}}{ \sum_{j=1}^{n} \mathbbm{1}{y_j = i} }
+  \phi_i = \frac{\sum_{i=1}^{n}\mathbbm{1}{y_j = i}}{n}
+\]
+
+\begin{align*}
+  \mu_1 = \frac{-2.9 -0.7 -2.4 -1.4-3.4}{5} = -2.16 \\ 
+  \mu_2 = \frac{0.4+0.3-0.3+1.2}{4} = 0.525 \\ 
+  \mu_3 = \frac{1.4+0.9+0.8+2.3+2.8}{5} = 7.8
+  \phi_1 = \frac{5}{14}
+  \phi_2 = \frac{4}{14}
+  \phi_3 = \frac{5}{14}
+\end{align*}
+
+
+
+  
+
+
+
 \end{solution}
 
 \part[5]
@@ -247,14 +317,38 @@ Test 2:   $H_2(x) = c \sim p(c|x)$, where $c$ is chosen based on the distributio
 \begin{subparts}
 \subpart[1] Calculate the risk $\mathrm{R_1}$ associated with test 1 in terms of the posterior probability using the zero-one loss function.
 \begin{solution}
+  \begin{align*}
+    Loss(c_1 , c_2) =\begin{cases}
+        0 & c_1 = c_2 \\ 
+        1 & c_1 \neq c_2 
+    \end{cases} \\ 
+    R_1 = \operatorname*{E[L(c,c^{*})]}_{c\sim p(c|x)}= \sum_{i=1}^{k}L(c,c^{*})p
+    &= 1- p(c^{*}|x)
+  \end{align*}
 \end{solution}
 
 \subpart[2] Calculate the risk $\mathrm{R_2}$ associated with test 2 in terms of the posterior probability using the zero-one loss function.
 \begin{solution}
+
+
+
+\begin{align*}  
+\end{align*}
+
+
+
+
+
 \end{solution}
 
 \subpart[2] Which test do you think would perform better always based on the risks $R_1$ and $R_2$? Also, specify the conditions under which both the tests behave the same.
 \begin{solution}
+
+  $R_1$ is better than $R_2$   
+  \begin{align*}
+    R_1 = R_2 \text{ if }  P(c^{*}|x) = 1 \text{ and all other} P (c_i|x) =0
+  \end{align*}
+  
 \end{solution}
 \end{subparts}
 \end{parts}
@@ -308,7 +402,7 @@ Derive the closed form solution for the minimizer $w^{*}$ of this function. Expr
 
 %this is the design matrix 
 \[
-  hhhX_q = \begin{bmatrix}
+  X_q = \begin{bmatrix}
     x_{1q} \\ 
     x_{2q} \\
     \vdots \\ 
@@ -348,6 +442,37 @@ w^{*}=(\lambda I + \phi^{T}\phi)^{-1}\phi^{T}t.
 \]
 Also show that $(\lambda I + \phi^{T}\phi)$ is invertible for any $\lambda > 0$.
 \begin{solution}
+
+  We know that in this expression the first term on the RHS is convex, the second term on RHS is also 
+  convex as it is  $\| x\|2$.  
+  \[
+    \widetilde{E}(w) = \dfrac{1}{2}\sum_{n=1}^{N}(t_n-w^{T}\phi(x_n))^2+\dfrac{\lambda}{2}w^{T}w.
+  \]
+
+  As we know that sum of two convex functions is convex $\widetilde{E}(w)$ is therefore convex. 
+
+  Now to find $w^{*}$, take gradient and put it to zero. 
+
+  \begin{align*}
+    \Phi^{T}\Phi w - \Phi^{T}t + \lambda w = 0 \\  
+    &= (\Phi^{T}\Phi  + \lambda I)w = \Phi^{T}t  \\ 
+    w = (\Phi^{T}\Phi  + \lambda I)^{-1}\Phi^{T}t
+  \end{align*}
+   
+  TP : $(\lambda I + \phi^{T}\phi)$ is invertible for any $\lambda > 0$
+
+  Proof by contradiction: 
+  Assume that $\left| \lambda I + \phi^{T}\phi \right|= 0$ and $\lambda$ > 0. 
+  $\phi^{T}\phi$ is PSD, so all the eigen values of this are positive. 
+
+  Suppose say that $\left| \lambda I + \phi^{T}\phi \right|= 0$. 
+  That would mean that $-\lambda$ is an eigen value of the $\phi^{T}\phi$. \\ 
+  As we have assumed that $\lambda$ is positive therefore $-\lambda$ is negative and therefore $\phi^{T}\phi$ has a negative 
+  eigen value which is not possible, therefore by contradiction we have proved that 
+
+  $(\lambda I + \phi^{T}\phi)$ is invertible for any $\lambda > 0$
+
+
 \end{solution}
 
 \part[5] Given a dataset  
@@ -360,6 +485,49 @@ X=\begin{bmatrix}
 \]
 find all minimizers $w$ of  $E(w)=\frac{1}{2} ||Xw - t||^2$, and indicate the one with the smallest norm. How does your answer change if you are looking for minimizers of $\widetilde{E}(w)$ instead (assuming $\lambda=1$)? 
 \begin{solution}
+
+\[
+  E(w) = \frac{1}{2} ((-2w_1 + 6w_2-3)^2 + (-w_1 + 3w_2 + 1)^2)  
+\]
+Differentiating this wrt $w_1$ we get, 
+\[
+  w_1 - 3w_2 + 1 = 0
+\]
+Differentiating this wrt $w_2$ we get,
+\begin{equation}
+  w_1 - 3w_2 + 1 = 0  
+\end{equation}
+
+To find the one with the smallest norm we have to minimize $w_1^{2} + w_2^{2}$.
+Substituiting (1) in this we get, 
+
+\[
+  w_1^{2} + \left( \frac{w_1 + 1}{3}\right)^{2} 
+\]
+Differentiating this and equating to zero and solving for $w_1$ we get, 
+\[
+  w_1 = \frac{-1}{10} , w_2 = \frac{3}{10}
+\]
+
+Now, to find the value of $w$ when $\lambda = 1$ we have the equation. 
+
+\[
+  w = (\Phi^{T}\Phi  + \lambda I)^{-1}\Phi^{T}t
+\]
+In this case $\Phi$ is same as $X$ therefore,  
+\[
+  w = (X^{T}X  + I)^{-1}X^{T}t
+\]
+
+Substituiting X and t in this we would get, 
+
+\[
+w = \begin{bmatrix}
+-1/4  \\ 
+1/4 
+\end{bmatrix}
+\]
+
 \end{solution}
 \end{parts}
 
@@ -370,14 +538,29 @@ Let $K_1$,$K_2$ be two arbitary valid kernel functions mapping vectors from $\ma
 \begin{parts}
 \part[1] $K_3(x,y) = K_1(x,y) + K_2(x,y) + 7.5$
 \begin{solution}
+  As $K_1$ and $K_2$ are PSD, 
+  Therefore is also PSD, 
+  \begin{align*}
+    x(K_1 + K_2 + 7.5I)x^{T} \\ 
+    &= x(K_1)x^{T} + x(K_2)x^{T} + xx^{T}   
+  \end{align*}
+  which is PSD as first and second terms are positive as they are kernels and the third term is the second norm which is positive. 
 \end{solution}
  
 \part[1] $K_4(x,y) = K_1(x,y)  K_2(x,y)$ (product of two kernels)
 \begin{solution}
+
+
+  
 \end{solution}
 
 \part[1] $K_5(x,y) = (x^T y + 1)^{73}$
 \begin{solution}
+  Doubts to ask : about what is menat by a kernel 
+  and how is $\lambda$ a eigen value of that thing. 
+
+
+
 \end{solution}
 
 \part[1] $K_6(x,y) = 6 K_1(x,y) - 3 K_2(x,y)$
