@@ -329,16 +329,16 @@ Test 2:   $H_2(x) = c \sim p(c|x)$, where $c$ is chosen based on the distributio
 
 \subpart[2] Calculate the risk $\mathrm{R_2}$ associated with test 2 in terms of the posterior probability using the zero-one loss function.
 \begin{solution}
-
-
-
-\begin{align*}  
-\end{align*}
-
-
-
-
-
+  \begin{align*}
+    Loss(c_1 , c_2) &=\begin{cases}
+        0 & c_1 = c_2 \\ 
+        1 & c_1 \neq c_2 
+    \end{cases} \\ 
+    R_1 = \operatorname*{E[L(c,c^{*})]}_{c\sim p(c|x)c^{*} \sim p(c|x)} &= \sum_{j = 1}^{k}\sum_{i=1}^{k}L(i,j)p(c = i|x)p(c^{*} = j|x) \\
+    &= \sum_{j=1}^{k}(1 - p(c^{*} = j|x)) p(c^{*} = j|x) \\
+    &=  \sum_{j=1}^{k}p(c^{*} = j|x) - \sum_{i=1}^{k}(p(c^{*} = j|x))^{2}  \\
+    &= 1 - \sum_{j=1}^{k}(p(c^{*} = j|x))^{2} 
+  \end{align*}
 \end{solution}
 
 \subpart[2] Which test do you think would perform better always based on the risks $R_1$ and $R_2$? Also, specify the conditions under which both the tests behave the same.
