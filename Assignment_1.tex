@@ -674,11 +674,12 @@ We know sum of kernels is kernel using first part of the question.
 \end{solution}
 
 \part[1] $K_6(x,y) = 6 K_1(x,y) - 3 K_2(x,y)$
-\begin{solution}
-$K_6(x,y)$ is not a kernel function.
-Proof by counter example : \\
-Let $K_1(x,y) = K(x,y)$ and $K_2(x,y) = 3k(x,y)$ be valid kernels then $K_6(x,y) = 6k(x,y) - 9k(x,y)  = -3k(x,y)$ which is not a kernel matrix
-as it is not positive semi definite.
+\begin{solution}\\ 
+$K_6(x,y)$ is not a kernel function. \\ 
+Proof by \textbf{counter example} :  \\
+Let $K_1(x,y) = K(x,y)$ and $K_2(x,y) = 3K(x,y)$ be valid kernels. \\ 
+Then $K_6(x,y) = 6k(x,y) - 9k(x,y)  = -3k(x,y)$ is not a kernel matrix
+as it is not positive semi definite as, 
 \begin{align*}
   x(6K_1 -  3K_2 )x^{T} = -3x^{T}k(x,y)x <= 0   
 \end{align*}
@@ -687,7 +688,6 @@ as it is not positive semi definite.
 \part[1] $K(x,y) =\exp(2x^Ty)$
 (Hint: Consider polynomial expansion of $\exp(t)$.)
 \begin{solution}
-
 
   \[
     z^{T}exp(2u^{T}v)z \\ 
@@ -737,10 +737,12 @@ Please see \href{https://drive.google.com/drive/folders/1MDxrvvLGkw9fjpII0eRzfPZ
 
 \part[2] Provide the error rates for the above classifiers (3 classifiers on the two datasets as $3\times2$ table, with appropriately named rows and columns).  
 \begin{solution}
+  In Notebook 
 \end{solution}
 
 \part[2] Summarise and explain your observations based on your plots and the assumptions given in the problem. Also briefly comment whether a non-parametric density estimation approach could have been used to solve this problem, and if so, what the associated pros/cons are compared to the parametric MLE based approach you have implemented.   
 \begin{solution}
+  In Notebook
 \end{solution}
 \end{parts}
 
