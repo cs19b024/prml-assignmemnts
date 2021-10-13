@@ -564,13 +564,23 @@ Therefore, it is set of finite basis basics, which would also be a kernel.
 
 \part[1] $K_5(x,y) = (x^T y + 1)^{73}$
 \begin{solution}
-
-
-
+\begin{align*}
+  K_5(x,y) = (1 + z)^{n} &= \sum_{k = 1}^{n} {n \choose k} x^{k} \\
+  & = \sum_{k = 1}^{73} {73 \choose k} (x^T y)^k \\
+  & = \sum_{k = 1}^n {K_k(x,y)}
+\end{align*}
+We know sum of kernels is kernel using first part of the question.
 \end{solution}
 
 \part[1] $K_6(x,y) = 6 K_1(x,y) - 3 K_2(x,y)$
 \begin{solution}
+$K_6(x,y)$ is not a kernel function.
+Proof by counter example : \\
+Let $K_1(x,y) = K(x,y)$ and $K_2(x,y) = 3k(x,y)$ be valid kernels then $K_6(x,y) = 6k(x,y) - 9k(x,y)  = -3k(x,y)$ which is not a kernel matrix
+as it is not positive semi definite.
+\begin{align*}
+  x(6K_1 -  3K_2 )x^{T} = -3x^{T}k(x,y)x <= 0   
+\end{align*}
 \end{solution}
 
 \part[1] $K(x,y) =\exp(2x^Ty)$
