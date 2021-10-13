@@ -9,7 +9,8 @@
 \newcommand{\expect}[1]{\ensuremath{\mathbb{E}[#1]}}
 \newcommand{\dx}{\mathrm{d}x}
 \newcommand{\real}{\mathbb{R}}
-
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
 \hypersetup{
     colorlinks=true,
     linkcolor=blue,
@@ -314,16 +315,93 @@ Solving this problem we would get,
 \begin{align*}
   \mu_1 = \frac{-2.9 -0.7 -2.4 -1.4-3.4}{5} = -2.16 \\ 
   \mu_2 = \frac{0.4+0.3-0.3+1.2}{4} = 0.525 \\ 
-  \mu_3 = \frac{1.4+0.9+0.8+2.3+2.8}{5} = 7.8
-  \phi_1 = \frac{5}{14}
-  \phi_2 = \frac{4}{14}
+  \mu_3 = \frac{1.4+0.9+1.8+2.3+2.8}{5} = 1.84 
+\end{align*}
+\begin{align*}
+  \phi_1 = \frac{5}{14} \\ 
+  \phi_2 = \frac{4}{14} \\ 
   \phi_3 = \frac{5}{14}
 \end{align*}
 
+for optimal bayes classifier 
 
+Now to calculate the posterior expressions, 
+\[
+  t = \begin{bmatrix}
+    t_1 \\ 
+    t_2 \\ 
+    \vdots \\ 
+    t_N 
+    \end{bmatrix} 
+\]
 
-  
+\[
+\text{let }p = \begin{bmatrix}
+  p(x|y=1) \\ 
+  p(x|y=2) \\ 
+  p(x|y=3)
+\end{bmatrix}
+\]
+And loss function for each class be  $L(t = C_1), L(t = C_2), L(t = C_3)$ 
+\[
+\begin{bmatrix}
+  L(t=C_1) \\ 
+  L(t=C_2) \\ 
+  L(t=C_3)
+\end{bmatrix}
+= 
+\begin{bmatrix}
+  0&1&2 \\ 
+  1&0&1 \\ 
+  2&1&0 \\ 
+\end{bmatrix}
+\begin{bmatrix}
+  p(C_1|x)\\
+  p(C_2|x)\\ 
+  p(C_3|x)\\ 
+\end{bmatrix}
+\]  
 
+\[
+\begin{bmatrix}
+  L(t=C_1) \\ 
+  L(t=C_2) \\ 
+  L(t=C_3)
+\end{bmatrix}
+= 
+\begin{bmatrix}
+  p(C_2|x) +2p(C_3|x) \\
+  p(C_1|x) + p(C_3|x)\\ 
+  2p(C_1|x) + p(C_2|x)\\ 
+\end{bmatrix}
+\]  
+
+\[
+\begin{bmatrix}
+  L(t=C_1) \\ 
+  L(t=C_2) \\ 
+  L(t=C_3)
+\end{bmatrix}
+= 
+\begin{bmatrix}
+  N(1.46,0.2720) \\
+  N(-0.32, 0.1802)\\ 
+  N(-1.39,0.5414)\\ 
+\end{bmatrix}
+\]  
+\[
+  h(x) = \operatorname*{argmin}_{C_k} L(t = C_k), \text{for k =1,2,3}   
+\]
+
+On comparing the log of the loss functions and solving we get the decision boundaries as, 
+
+\[
+  h(x) = \begin{cases}
+    C_1 & x_1 \le -0.512 \\ 
+    C_2 & -0.512 < x \le 1.111 \\ 
+    C_3 & x > 1.111
+  \end{cases}
+\]
 
 
 \end{solution}
@@ -484,11 +562,11 @@ Also show that $(\lambda I + \phi^{T}\phi)$ is invertible for any $\lambda > 0$.
    
   TP : $(\lambda I + \phi^{T}\phi)$ is invertible for any $\lambda > 0$
 
-  Proof by contradiction: 
+  Proof by \textbf{contradiction}:  \\ 
   Assume that $\left| \lambda I + \phi^{T}\phi \right|= 0$ and $\lambda$ > 0. 
   $\phi^{T}\phi$ is PSD, so all the eigen values of this are positive. 
 
-  Suppose say that $\left| \lambda I + \phi^{T}\phi \right|= 0$. 
+  Suppose say that $\left| \lambda I + \phi^{T}\phi \right|= 0$. \\
   That would mean that $-\lambda$ is an eigen value of the $\phi^{T}\phi$. \\ 
   As we have assumed that $\lambda$ is positive therefore $-\lambda$ is negative and therefore $\phi^{T}\phi$ has a negative 
   eigen value which is not possible, therefore by contradiction we have proved that 
@@ -622,7 +700,7 @@ Therefore this expression is of the form,
 \[
   z^{T}k_1z +z^{T}k_2z+z^{T}k_1z+z^{T}k_3z \ge 0 
 \]
-the kernel is PSD, and the equation is symmetric because 
+the kernel is PSD, and the equation is symmetric because $u^{T}v$ is symmetric. 
 
 
 \end{solution}
@@ -645,6 +723,13 @@ Please see \href{https://drive.google.com/drive/folders/1MDxrvvLGkw9fjpII0eRzfPZ
 \part[3] Plot all the classifiers (3 classification algorithms on $2$ datasets $= 6$ plots) on a 2D plot, Add the training data points also on the plots. (Color the positively classified area light green, and negatively classified area light red as in Fig 4.5 in Bishop's book). 
 \begin{solution}
 \end{solution}
+\includegraphics[scale = 0.75]{image_1.png} \\ 
+\includegraphics[scale = 0.75]{image_2.png} \\  
+\newpage
+\includegraphics[scale = 0.75]{image_3.png} \\ 
+\includegraphics[scale = 0.75]{image_4.png} \\ 
+\includegraphics[scale = 0.75]{image_5.png} \\ 
+\includegraphics[scale = 0.75]{image_6.png}
 
 \part[3] Give the ROC curves for all the classifiers. Note that a ROC curve plots the FPR (False Positive Rate) on the x-axis and TPR (True Positive Rate) on the y-axis.
 \begin{solution}
