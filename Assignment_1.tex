@@ -189,6 +189,28 @@ Therefore both the MLE estimate and MAP estimate of $\theta$ would be the same.
 \subpart[2] Square loss is defined as $L(\theta, \hat{\theta}) = (\theta - \hat{\theta})^2$. For the above derived posterior in (i), 
 what estimator of $\theta$ minimizes the posterior expected square loss? Simplify your answer as much as possible. Is it the same as the MLE and/or the MAP?
 \begin{solution}
+
+To minimize  $L(\theta, \hat{\theta}) = (\theta - \hat{\theta})^2$ we have to minimize $E[(\theta - \hat{\theta})^{2}]$ 
+\[
+  \int_{-\infty}^{\infty} (\theta - \hat{\theta})^2 p(\theta)d\theta 
+\]
+
+\begin{align*}
+  \int_{-\infty}^{\infty} \theta^{2} p(\theta) d\theta -  2\int_{-\infty}^{\infty} \theta \hat{\theta} p(\theta) d\theta + \int_{-\infty}^{\infty} \hat{\theta}^2 p(\theta) d\theta 
+\end{align*}
+
+\[
+  \int_{-\infty}^{\infty} \theta^{2} p(\theta) d\theta -  2 \hat{\theta} E[\theta] + \hat{\theta}^2 p(\theta) 
+\]
+Now differentiating by $\hat{\theta}$ we get, 
+
+\[
+  2\hat{\theta} = 2E[\theta]  
+\]
+\[
+  \hat{\theta} = E[\theta]
+\]
+
 This function would reach it's minimum value when $\theta$ takes the value $E[\theta]$. 
 Expectation of $\theta$ is as follows:
 
